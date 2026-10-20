@@ -1236,6 +1236,23 @@ commands:
   - id: supabase-projects-api-keys
     title: supabase projects api-keys
     summary: List all API keys for a Supabase project
+    description: |-
+      Lists the API keys for the specified project. For a preview branch, use the branch's project ref.
+
+      In CI, set `SUPABASE_ACCESS_TOKEN` to a [personal access token from the Supabase Dashboard](/dashboard/account/tokens) instead of running `supabase login`.
+
+      Secret API keys with the `sb_secret_` prefix are redacted by default. Pass `--reveal` to retrieve their full values. For the required token permissions, see [API keys](/docs/guides/getting-started/api-keys).
+
+      The `--output` flag supports `json`, `env`, `toml`, and `yaml` formats for scripts. Output from `--reveal` contains secret API keys. Keep it out of logs and version control.
+    examples:
+      - id: basic-usage
+        name: List project API keys
+        code: supabase projects api-keys --project-ref abcdefghijklmnopqrst
+      - id: export-api-keys
+        name: Save API keys for CI
+        code: |-
+          supabase projects api-keys --project-ref abcdefghijklmnopqrst \
+            --reveal --output json > api-keys.json
     tags: []
     links: []
     usage: supabase projects api-keys [flags]
@@ -1245,6 +1262,10 @@ commands:
         name: --project-ref <string>
         description: Project ref of the Supabase project.
         default_value: ''
+      - id: reveal
+        name: --reveal
+        description: Reveal the full values of secret API keys.
+        default_value: 'false'
   - id: supabase-postgres-config
     title: supabase postgres-config
     summary: Manage Postgres database config
